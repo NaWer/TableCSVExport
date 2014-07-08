@@ -93,18 +93,28 @@ jQuery.fn.TableCSVExport = function (options) {
         var trCounter = 0;
         getAvailableRows(el).each(function () {
             var tmpRow = [];
-            var columnCounter = 0;
-            var extraDataCounter = 0;
-            getAvailableElements(this).find('td').each(function () {
-                if ((columnCounter in columnNumbers) && (extraDataCounter == insertBeforeNum)) {
-                    tmpRow[tmpRow.length] = jQuery.trim(formatData(options.extraData[trCounter - 1]));
+            
+            for (var o = 0; o < numCols; o++) {
+                for (var i = 0; i < options.columns.length; i++) {
+                    if (options.columns[i] == options.header[o]) {
+                        tmpRow[tmpRow.length] = jQuery.trim(formatData($('td:nth('+o+')', this).html()));
+                    }
                 }
-                if ((jQuery(this).css('display') != 'none' || options.showHiddenRows) && (columnCounter in columnNumbers)) {
-                    tmpRow[tmpRow.length] = jQuery.trim(formatData(jQuery(this).html()));
-                }
-                columnCounter++;
-                extraDataCounter++;
-            });
+            }
+            
+            // var columnCounter = 0;
+            // var extraDataCounter = 0;
+            // getAvailableElements(this).find('td').each(function () {
+            //     if ((columnCounter in columnNumbers) && (extraDataCounter == insertBeforeNum)) {
+            //         tmpRow[tmpRow.length] = jQuery.trim(formatData(options.extraData[trCounter - 1]));
+            //     }
+            //     if ((jQuery(this).css('display') != 'none' || options.showHiddenRows) && (columnCounter in columnNumbers)) {
+            //         tmpRow[tmpRow.length] = jQuery.trim(formatData(jQuery(this).html()));
+            //     }
+            //     columnCounter++;
+            //     extraDataCounter++;
+            // });
+            
             row2CSV(tmpRow);
             trCounter++;
         });
