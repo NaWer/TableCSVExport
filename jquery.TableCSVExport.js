@@ -151,7 +151,7 @@ jQuery.fn.TableCSVExport = function (options) {
     function formatData(input) {
         // mask " with "
         var regexp = new RegExp(/["]/g); //"
-        var output = input.replace(regexp, '""');
+        var output = (input) ? input.replace(regexp, '""') : '';
         // TODO: mask \""; at the end, so openoffice can open it correctly
         
         // strip HTML
